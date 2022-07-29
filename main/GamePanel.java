@@ -1,4 +1,6 @@
-package main;
+package gameoflife.main;
+import java.awt.event.*;
+import java.awt.event.KeyAdapter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,14 +16,14 @@ import javax.swing.event.MouseInputListener;
 
 public class GamePanel  extends JPanel implements ActionListener {
     
-    static final int SCREEN_WIDHT=400;
-    static final int SCREEN_HEIGHT=400;
-    static final int UNIT_SIZE=10;
+    static final int SCREEN_WIDHT=600;
+    static final int SCREEN_HEIGHT=600;
+    static final int UNIT_SIZE=25;
     static final int GAME_UNITS= (SCREEN_WIDHT*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY=0;
     int grid[][] = new int[GAME_UNITS][GAME_UNITS];
     int indexWhite[][] = new int[GAME_UNITS][2];
-    boolean running =false;
+    public boolean running =false;
     Timer timer;
     Random random = new Random();
 
@@ -31,7 +33,9 @@ public class GamePanel  extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDHT,SCREEN_HEIGHT));
         this.addMouseListener(new MyMouse());
+        this.addKeyListener(new MyKeyAdapter());
         startGame();
+        System.out.println(GAME_UNITS);
         
         
     }
@@ -45,7 +49,7 @@ public class GamePanel  extends JPanel implements ActionListener {
     }
     public void initializeGrid(){
         
-        int max =30;
+        int max =10;
         for(int i =0; i<GAME_UNITS;i++){
             for(int j =0; j<GAME_UNITS;j++){
                 grid[i][j]=0;
@@ -57,11 +61,15 @@ public class GamePanel  extends JPanel implements ActionListener {
                 int xRand=random.nextInt((int)SCREEN_WIDHT/UNIT_SIZE);
                 int yRand=random.nextInt((int)SCREEN_HEIGHT/UNIT_SIZE);
                 grid[xRand][yRand]=1;
-            }
         }
+    } 
+        }
+     
         
-    }
+        
+    
     public void updateGrid(){
+        if(running==true){
         for(int i =0; i<GAME_UNITS-1;i++){
             for(int j =0; j<GAME_UNITS-1;j++){
                 int cnt=countNeighborsAlive(i, j);
@@ -75,6 +83,7 @@ public class GamePanel  extends JPanel implements ActionListener {
                 }
             }
         } 
+    }
     }
 
     public void paintComponent(Graphics g){
@@ -102,7 +111,14 @@ public class GamePanel  extends JPanel implements ActionListener {
 
     }
             
-    
+    public void cleanGrid(){
+        for(int i =0; i<GAME_UNITS;i++){
+            for(int j =0; j<GAME_UNITS;j++){
+                grid[i][j]=0;
+            }
+        }
+
+    }
     public int  countNeighborsAlive(int x,int y){
         int count=0;
 
@@ -124,13 +140,6 @@ public class GamePanel  extends JPanel implements ActionListener {
     
     
     
-
-    
-    
-
-    
-
-            
         
         
         return count;
@@ -141,8 +150,9 @@ public class GamePanel  extends JPanel implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        
         repaint();
+        
         
     }
     public class MyMouse implements MouseInputListener {
@@ -160,9 +170,7 @@ public class GamePanel  extends JPanel implements ActionListener {
             else{
                 grid[caseX][caseY]=1;
             }
-            
-            
-            
+                
         }
 
         @Override
@@ -200,16 +208,32 @@ public class GamePanel  extends JPanel implements ActionListener {
             // TODO Auto-generated method stub
             
         }
-        
-
 
     }
+    public class MyKeyAdapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+         switch(e.getKeyCode()){
+             case KeyEvent.VK_ESCAPE :
+             if(running == true){
+                running=false;
+             }
+             else{
+                running=true;
+             }
+             break; 
+             case KeyEvent.VK_ENTER:
+             initializeGrid();
+             break;
+             case KeyEvent.VK_0:
+             cleanGrid();
+             break;
 
-  
-
- 
-
-       
-       
+             
+         }
+        }
+    }
+   
+           
     
 }

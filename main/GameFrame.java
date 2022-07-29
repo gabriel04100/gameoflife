@@ -1,4 +1,4 @@
-package main;
+package gameoflife.main;
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame {

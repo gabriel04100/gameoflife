@@ -1,4 +1,4 @@
-package main;
+package gameoflife.main;
 public class GameOfLife{
 
 public static void main(String[] args) {
