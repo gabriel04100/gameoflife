@@ -18,7 +18,7 @@ public class GamePanel  extends JPanel implements ActionListener {
     
     static final int SCREEN_WIDHT=600;
     static final int SCREEN_HEIGHT=600;
-    static final int UNIT_SIZE=25;
+    static final int UNIT_SIZE=15;
     static final int GAME_UNITS= (SCREEN_WIDHT*SCREEN_HEIGHT)/UNIT_SIZE;
     static final int DELAY=0;
     int grid[][] = new int[GAME_UNITS][GAME_UNITS];
@@ -49,7 +49,7 @@ public class GamePanel  extends JPanel implements ActionListener {
     }
     public void initializeGrid(){
         
-        int max =10;
+        int max =12;
         for(int i =0; i<GAME_UNITS;i++){
             for(int j =0; j<GAME_UNITS;j++){
                 grid[i][j]=0;
